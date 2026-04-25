@@ -12,6 +12,8 @@ jobs:
 
     steps:
       - name: Notify Discord
-        uses: johnnyhuy/actions-discord-git-webhook@main
-        with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d "{\"content\": \"Deploy finalizado: ${{ github.event.workflow_run.conclusion }}\"}" \
+          ${{ secrets.YOUR_DISCORD_WEBHOOK_URL }}
