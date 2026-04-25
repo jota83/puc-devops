@@ -16,4 +16,4 @@ jobs:
           curl -H "Content-Type: application/json" \
           -X POST \
           -d "{\"content\": \"Deploy finalizado: ${{ github.event.workflow_run.conclusion }}\"}" \
-          ${{ secrets.YOUR_DISCORD_WEBHOOK_URL }}
+          ${{ secrets.DISCORD_WEBHOOK }}
