@@ -1,11 +1,9 @@
 <script setup>
-
+console.log('teste')
 </script>
 
 <template>
-Página Contato
+    Página Contato
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
