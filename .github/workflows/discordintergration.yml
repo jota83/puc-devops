@@ -12,6 +12,6 @@ jobs:
 
     steps:
       - name: Notify Discord
-        uses: johnnyhuy/actions-discord-git-webhook@main
+        uses: Snidll/discord-commits@v1.6
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
