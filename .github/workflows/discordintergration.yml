@@ -1,10 +1,8 @@
 name: Discord Notification
 
 on:
-  workflow_run:
-    workflows: ["Continuous Delivery"]
-    types:
-      - completed
+  push:
+    branches: ["main"]
 
 jobs:
   discord:
@@ -13,18 +11,7 @@ jobs:
     steps:
       - name: Notify Discord
         run: |
-          STATUS="${{ github.event.workflow_run.conclusion }}"
-          REPO="${{ github.repository }}"
-          ACTOR="${{ github.actor }}"
-          RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}"
-
-          if [ "$STATUS" = "success" ]; then
-            MSG="✅ CD finalizado com sucesso!\n📦 Repo: $REPO\n👤 Autor: $ACTOR\n🔗 $RUN_URL"
-          else
-            MSG="❌ CD falhou!\n📦 Repo: $REPO\n👤 Autor: $ACTOR\n🔗 $RUN_URL"
-          fi
-
           curl -H "Content-Type: application/json" \
           -X POST \
-          -d "{\"content\": \"$MSG\"}" \
+          -d "{\"content\": \"🚀 Push detectado na main\"}" \
           ${{ secrets.DISCORD_WEBHOOK }}
