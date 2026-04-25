@@ -12,8 +12,19 @@ jobs:
 
     steps:
       - name: Notify Discord
-        uses: Snidll/discord-commits@v1.6
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          template: "avatar-with-link"
-          include-extras: true
+        run: |
+          STATUS="${{ github.event.workflow_run.conclusion }}"
+          REPO="${{ github.repository }}"
+          ACTOR="${{ github.actor }}"
+          RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}"
+
+          if [ "$STATUS" = "success" ]; then
+            MSG="✅ CD finalizado com sucesso!\n📦 Repo: $REPO\n👤 Autor: $ACTOR\n🔗 $RUN_URL"
+          else
+            MSG="❌ CD falhou!\n📦 Repo: $REPO\n👤 Autor: $ACTOR\n🔗 $RUN_URL"
+          fi
+
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d "{\"content\": \"$MSG\"}" \
+          ${{ secrets.DISCORD_WEBHOOK }}
