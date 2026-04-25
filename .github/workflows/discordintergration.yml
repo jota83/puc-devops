@@ -2,7 +2,7 @@ name: Discord Notification
 
 on:
   workflow_run:
-    workflows: ["Deploy"]
+    workflows: ["Continuous Delivery"]
     types:
       - completed
 
@@ -12,8 +12,6 @@ jobs:
 
     steps:
       - name: Notify Discord
-        run: |
-          curl -H "Content-Type: application/json" \
-          -X POST \
-          -d "{\"content\": \"Deploy finalizado: ${{ github.event.workflow_run.conclusion }}\"}" \
-          ${{ secrets.YOUR_DISCORD_WEBHOOK_URL }}
+        uses: johnnyhuy/actions-discord-git-webhook@main
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
